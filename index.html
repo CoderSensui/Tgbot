@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ph Time And Date</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: inherit; /* Use the default font set in the user's device settings */
+      text-align: left;
+      margin: 0;
+      padding: 0;
+      background-color: #111;
+      color: white;
+    }
+
+    #flag {
+      position: absolute;
+      top: 25px;
+      left: 10px;
+    }
+
+    #flag img {
+      max-width: 65px; /* Adjust the max-width as needed */
+      height: auto;
+    }
+
+    #clock {
+      font-size: 4em;
+      position: absolute;
+      top: 80px;
+      left: 10px; /* Adjust the left position to make space for the flag */
+    }
+
+    #clockLocation {
+      position: absolute;
+      top: 22px;
+      left: 80px;
+      text-align: left;
+      
+    }
+
+    #clockLocation .city {
+      font-size: 1.5em;
+      color: #00559f;
+      line-height: 1;
+    }
+
+    #clockLocation .country {
+      font-size: 1em;
+      color: #BF0D3E;
+      line-height: 1;
+    }
+
+    #time {
+      display: block;
+      color: #FFDB58;
+    }
+
+    #day {
+      display: block;
+      color: #fff;
+    }
+
+    #seconds {
+      font-size: 0.4em;
+      vertical-align: super;
+      color: white;
+    }
+
+    #date {
+      font-size: 1.5em;
+      position: absolute;
+      top: 125px;
+      left: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="flag">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyQC4vGPQs07CDToFH0108J_ghvtMcTiwzJw&usqp=CAU" alt="Philippines Flag">
+</div>
+<div id="clock">
+  <span id="time"></span>
+</div>
+<div id="date">
+  <span id="day"></span>
+</div>
+<div id="clockLocation">
+  <div class="city">Manila</div>
+  <div class="country">Philippines</div>
+</div>
+
+<script>
+  function updateClock() {
+    let currentTime = new Date();
+
+    // Advance the time by 1 second
+    currentTime = new Date(currentTime.getTime() + 1000);
+
+    const options = {
+      hour12: false,
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      timeZone: "Asia/Manila"
+    };
+
+    const formattedTime = currentTime.toLocaleTimeString("en-US", options);
+    const minutes = formattedTime.substr(3, 2);
+    const seconds = currentTime.getSeconds();
+
+    const clockDiv = document.getElementById("clock");
+    const timeSpan = document.getElementById("time");
+    timeSpan.textContent = formattedTime;
+
+    // Add seconds as superscript on top of minutes
+    timeSpan.innerHTML = `${formattedTime.substr(0, 2)}:${minutes}<sup id="seconds">${seconds}</sup>`;
+
+    // Display the current day, date, and month
+    const dateOptions = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      timeZone: "Asia/Manila"
+    };
+    const formattedDate = currentTime.toLocaleDateString("en-US", dateOptions);
+    const dateSpan = document.getElementById("day");
+    dateSpan.textContent = formattedDate;
+  }
+
+  // Update the clock every second
+  setInterval(updateClock, 1000);
+
+  // Initial call to set the clock when the page loads
+  updateClock();
+</script>
+
+</body>
+</html>
